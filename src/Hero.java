@@ -5,6 +5,7 @@ public class Hero {
     private double defence;
     private double xp;
     private int gold;
+    private int level;
     private Gear helmet;
     private Gear body;
     private Gear leg;
@@ -18,6 +19,17 @@ public class Hero {
         this.defence = defence;
         this.xp = 0;
         this.gold = 0;
+    }
+
+    public Hero(String name, double health, double attackPower, double defence, double xp, int gold, int level) {
+        this.name = name;
+        this.health = health;
+        this.attackPower = attackPower;
+        this.defence = defence;
+        this.xp = xp;
+        this.gold = gold;
+        this.level = level;
+
     }
 
     public String getName() {
@@ -66,5 +78,18 @@ public class Hero {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return name + "," + health + "," + attackPower + "," + defence + "," + xp + "," + gold + "," + level;
     }
 }
