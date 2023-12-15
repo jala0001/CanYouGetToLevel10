@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hero {
     private String name;
     private double health;
@@ -12,6 +15,7 @@ public class Hero {
     private Gear body;
     private Gear leg;
     private Gear boots;
+    private ArrayList<Gear> gears;
     private Items items;
 
     public Hero(String name, double health, double attackPower, double defence) {
@@ -22,6 +26,7 @@ public class Hero {
         this.xp = 0;
         this.gold = 0;
         this.inBattle = false;
+        this.gears = new ArrayList<>();
     }
 
     public Hero(String name, double health, double attackPower, double defence, double xp, int gold, int level, boolean inBattle) {
@@ -33,6 +38,7 @@ public class Hero {
         this.gold = gold;
         this.level = level;
         this.inBattle = inBattle;
+        this.gears = new ArrayList<>();
 
     }
 
@@ -139,6 +145,40 @@ public class Hero {
     public void setBoots(Gear boots) {
         this.boots = boots;
     }
+
+    public void addGear(Gear gear) {
+        this.gears.add(gear);
+    }
+
+    public void removeGear(Gear gear) {
+        this.gears.remove(gear);
+    }
+
+    public List<Gear> getGears() {
+        return gears;
+    }
+
+    public void updateStatsBasedOnGear(Hero hero) {
+        // Antager, at der er basisværdier for helten (kan også være en del af Hero-konstruktøren)
+        double baseHealth = hero.getHealth();
+        double baseAttackPower = hero.getAttackPower();
+        double baseDefence = hero.getDefence();
+
+        // Nulstil stats til basisværdier
+        this.health = baseHealth;
+        this.attackPower = baseAttackPower;
+        this.defence = baseDefence;
+
+        // Opdater stats baseret på hvert gearobjekt
+        for (Gear gear : this.gears) {
+            this.health += gear.getIncreasedHp();
+            this.attackPower += gear.getIncreasedAttackPower();
+            this.defence += gear.getIncreasedDefence();
+        }
+
+    }
+
+
 
     public Items getItems() {
         return items;

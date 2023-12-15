@@ -137,9 +137,10 @@ public class RunProgram {
     public void buyGear() {
         System.out.println("What would you like to purchase?");
         System.out.println("1. Helmet");
-        System.out.println("2. body armor");
-        System.out.println("3. leg armor");
+        System.out.println("2. Body armor");
+        System.out.println("3. Weapons");
         System.out.println("4. Boots");
+        //todo              Spells
         int number = in.nextInt();
         in.nextLine();
         gearSwitch(number);
@@ -156,7 +157,7 @@ public class RunProgram {
     public void helmetGear() {
         System.out.println("Which helmet do you want to buy?");
 
-        System.out.println("\033[32m" + "1. 'Featherlight-helmet' - '50 HP' - '0 attackPower' - '0.5 defense' - PRICE: 85 gold");
+        System.out.println("\033[32m" + "1. 'Featherlight-helmet' - '50 HP' - '0 attackPower' - '0.5 defense' - PRICE: 0 gold");
         System.out.println("2. 'Soft-helmet' - '100 HP' - '0 attackPower' - '0.8 defense' - PRICE: 170 gold");
         System.out.println("3. 'Guard-helmet' - '200 HP' - '0 attackPower' - '1.1 defense' - PRICE: 340 gold" + "\033[0m");
 
@@ -180,7 +181,7 @@ public class RunProgram {
 
     public void helmetGearSwitch(int number) {
         List<Gear> gears = new ArrayList<>();
-        gears.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 85));
+        gears.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 0));
         gears.add(new Gear("Soft-helmet", 100, 0, 0.8, 170));
         gears.add(new Gear("Guard-helmet", 200, 0, 1.1, 340));
         gears.add(new Gear("Iron-helmet", 400, 0, 1.4, 680));
@@ -204,11 +205,20 @@ public class RunProgram {
     }
 
     private void buyHelmet(Gear gear) {
-        hero.setHelmet(gear);
+        // Tilføj udstyr til helten og opdater heltenes guld
+        for (int i = 0; i < hero.getGears().size(); i++) {
+            if (gear.getName().equalsIgnoreCase(hero.getGears().get(i).getName())) {
+                System.out.println("You already have: " + gear.getName());
+                return;
+            }
+        }
+        hero.addGear(gear);
         hero.setGold(hero.getGold() - gear.getPrice());
-        hero.setHealth(hero.getHealth() + gear.getIncreasedHp());
-        hero.setAttackPower(hero.getAttackPower() + gear.getIncreasedAttackPower());
-        hero.setDefence(hero.getDefence() + gear.getIncreasedDefence());
+
+        // Opdater heltenes stats baseret på det nye udstyr
+        hero.updateStatsBasedOnGear(hero);
+
+        // Gem opdateringer til fil
         filer.gemHeroTilFil(heroArrayList, "hero.txt");
     }
 
@@ -382,7 +392,7 @@ public class RunProgram {
             String rollOrAttack = rollOrAttackHero();
             if (rollOrAttack.equalsIgnoreCase("roll")) {
                 rolls++;
-                int number = random.nextInt(6) + 1;
+                int number = random.nextInt(6) + 1; // todo lav en anden fordeling i forhold til hero level vs monster
                 System.out.println("Guess the number of the dice before you roll it: " );
                // System.out.println(number);
                 int guess = in.nextInt();
@@ -516,7 +526,7 @@ public class RunProgram {
         }
 
         int[] xpThresholds = {100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500, 6600, 7800, 9100, 10500, 12000};
-        double attackPowerMultiplier = 1.5;
+        double attackPowerMultiplier = 1.5; // todo giv brugeren mulighed for selv at vælge den stat de vil have forøget!
         double defenceIncrement = 0.5;
         double healthMultiplier = 1.5;
 
