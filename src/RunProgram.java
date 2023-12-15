@@ -3,6 +3,8 @@ import java.util.*;
 public class RunProgram {
     private Gear gear = new Gear();
     private ArrayList<Hero> heroArrayList = new ArrayList<>();
+    private ArrayList<Gear> helmetGear;
+    private ArrayList<Gear> weaponGear;
     private Filer filer = new Filer();
     private Hero hero;
     Scanner in = new Scanner(System.in);
@@ -24,6 +26,7 @@ public class RunProgram {
             filer.gemHeroTilFil(heroArrayList, "hero.txt");
             presentationToTheGame();
             createHero();
+            hero = heroArrayList.get(0);
         }
 
         boolean menu = true;
@@ -76,10 +79,10 @@ public class RunProgram {
     public void printHeroStats(Hero hero) {
         System.out.println("Your hero's stats at the moment: ");
         System.out.println("\033[34m" + "Name: " + hero.getName() + "\033[0m");
-        System.out.println("\033[31m" + "Health: " + hero.getHealth() + "\033[0m");
-        System.out.println("\033[35m" + "AttackPower: " + hero.getAttackPower() + "\033[0m");
-        System.out.println("\033[37m" + "Defence: " + hero.getDefence() + "\033[0m");
-        System.out.println("\033[32m" + "XP: " + hero.getXp() + "\033[0m");
+        System.out.println("\033[31m" + "Health: " + String.format("%.2f", hero.getHealth()) + "\033[0m");
+        System.out.println("\033[35m" + "AttackPower: " + String.format("%.2f", hero.getAttackPower()) + "\033[0m");
+        System.out.println("\033[37m" + "Defence: " + String.format("%.2f", hero.getDefence()) + "\033[0m");
+        System.out.println("\033[32m" + "XP: " + String.format("%.0f", hero.getXp()) + "\033[0m");
         System.out.println("\033[33m" + "Gold: " + hero.getGold() + "\033[0m");
         System.out.println("\033[36m" + "Level: " + hero.getLevel() + "\033[0m");
         System.out.println();
@@ -109,7 +112,6 @@ public class RunProgram {
         System.out.println("\033[37m" + "Defence: " + String.format("%.2f", monster.getDefence()) + "\033[0m");
         System.out.println("\033[36m" + "Level: " + monster.getLevel() + "\033[0m");
         System.out.println();
-        // todo
     }
 
 
@@ -149,7 +151,7 @@ public class RunProgram {
         switch (number) {
             case 1 -> helmetGear();
             case 2 -> bodyArmorGear();
-            case 3 -> legArmorGear();
+            case 3 -> weapons();
             case 4 -> bootsGear();
             default -> buyGear();
         }
@@ -157,7 +159,7 @@ public class RunProgram {
     public void helmetGear() {
         System.out.println("Which helmet do you want to buy?");
 
-        System.out.println("\033[32m" + "1. 'Featherlight-helmet' - '50 HP' - '0 attackPower' - '0.5 defense' - PRICE: 0 gold");
+        System.out.println("\033[32m" + "1. 'Featherlight-helmet' - '50 HP' - '0 attackPower' - '0.5 defense' - PRICE: 8 gold");
         System.out.println("2. 'Soft-helmet' - '100 HP' - '0 attackPower' - '0.8 defense' - PRICE: 170 gold");
         System.out.println("3. 'Guard-helmet' - '200 HP' - '0 attackPower' - '1.1 defense' - PRICE: 340 gold" + "\033[0m");
 
@@ -180,22 +182,25 @@ public class RunProgram {
 
 
     public void helmetGearSwitch(int number) {
-        List<Gear> gears = new ArrayList<>();
-        gears.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 0));
-        gears.add(new Gear("Soft-helmet", 100, 0, 0.8, 170));
-        gears.add(new Gear("Guard-helmet", 200, 0, 1.1, 340));
-        gears.add(new Gear("Iron-helmet", 400, 0, 1.4, 680));
-        gears.add(new Gear("SilverMoon-helmet", 800, 0, 1.7, 1360));
-        gears.add(new Gear("StormForged-helmet", 1600, 0, 2, 3000));
-        gears.add(new Gear("DragonBone-helmet", 3200, 0, 2.3, 6050));
-        gears.add(new Gear("WarBringer-helmet", 6400, 0, 2.6, 14610));
-        gears.add(new Gear("InfernoSkull-helmet", 12800, 0, 3, 29000));
-        gears.add(new Gear("Pikachu-cap", 30000, 0, 6, 60000));
+        helmetGear = new ArrayList<>();
+        helmetGear.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 8));
+        helmetGear.add(new Gear("Soft-helmet", 100, 0, 0.8, 170));
+        helmetGear.add(new Gear("Guard-helmet", 200, 0, 1.1, 340));
+        helmetGear.add(new Gear("Iron-helmet", 400, 0, 1.4, 680));
+        helmetGear.add(new Gear("SilverMoon-helmet", 800, 0, 1.7, 1360));
+        helmetGear.add(new Gear("StormForged-helmet", 1600, 0, 2, 3000));
+        helmetGear.add(new Gear("DragonBone-helmet", 3200, 0, 2.3, 6050));
+        helmetGear.add(new Gear("WarBringer-helmet", 6400, 0, 2.6, 14610));
+        helmetGear.add(new Gear("InfernoSkull-helmet", 12800, 0, 3, 29000));
+        helmetGear.add(new Gear("Pikachu-cap", 30000, 0, 6, 60000));
 
-        if (number >= 1 && number <= gears.size()) {
-            Gear selectedGear = gears.get(number - 1);
+       GoldEnoughForGear(number, helmetGear);
+    }
+    public void GoldEnoughForGear(int number, ArrayList<Gear> gear) {
+        if (number >= 1 && number <= gear.size()) {
+            Gear selectedGear = gear.get(number - 1);
             if (hero.getGold() >= selectedGear.getPrice()) {
-                buyHelmet(selectedGear);
+                buyingGear(selectedGear);
             } else {
                 System.out.println("\033[31m" + "You don't have the gold to buy that item" + "\033[0m");
             }
@@ -204,14 +209,15 @@ public class RunProgram {
         }
     }
 
-    private void buyHelmet(Gear gear) {
+    private void buyingGear(Gear gear) {
         // Tilføj udstyr til helten og opdater heltenes guld
-        for (int i = 0; i < hero.getGears().size(); i++) {
-            if (gear.getName().equalsIgnoreCase(hero.getGears().get(i).getName())) {
-                System.out.println("You already have: " + gear.getName());
+        for (int i = 0; i < hero.getHeroGears().size(); i++) {
+            if (gear.getName().equalsIgnoreCase(hero.getHeroGears().get(i).getName())) {
+                System.out.println("\n" + "\033[34m" + "You already have: " + gear.getName() + "\n" + "\033[0m");
                 return;
             }
         }
+        System.out.println("\n" + "\033[34m" + gear.getName() + " has been purchased!\n" + "\033[0m");
         hero.addGear(gear);
         hero.setGold(hero.getGold() - gear.getPrice());
 
@@ -224,11 +230,40 @@ public class RunProgram {
 
 
     public void bodyArmorGear() {
-        System.out.println("hej2");
+        System.out.println("1. ");
     }
 
-    public void legArmorGear() {
-        System.out.println("hej3");
+    public void weapons() {
+        System.out.println("1. Plush Bunny Hammer - '0HP' - '5 attackPower' - '0 defence' - 'PRICE: 85");
+        System.out.println("2. Thunder Staff - '0HP' - '7 attackPower' - '0 defence' - 'PRICE: 148'");
+        System.out.println("3. Glowblade - '0HP' - '10 attackPower' - '0 defence' - 'PRICE: 260'");
+        System.out.println("4. Frost Halberd - '0HP' - '13 attackPower' - '0 defence' - 'PRICE: 455'");
+        System.out.println("5. Shadowblade - '0HP' - '17 attackPower' - '0 defence' - 'PRICE: 797'");
+        System.out.println("6. Flame Halberd - '0HP' - '22 attackPower' - '0 defence' - 'PRICE: 1395'");
+        System.out.println("7. Lightning Axe - '0HP' - '28 attackPower' - '0 defence' - 'PRICE: 2441'");
+        System.out.println("8. Earthquake Hammer - '0HP' - '37 attackPower' - '0 defence' - 'PRICE: 4272'");
+        System.out.println("9. Hurricane Boomerang - '0HP' - '48 attackPower' - '0 defence' - 'PRICE: 7476'");
+        System.out.println("10. Cosmic Annihilator - '0HP' - '63 attackPower' - '0 defence' - 'PRICE: 13084'");
+        int number = in.nextInt();
+        in.nextLine();
+        weaponsGearSwitch(number);
+    }
+
+    public void weaponsGearSwitch(int number) {
+        weaponGear = new ArrayList<>();
+        weaponGear.add(new Gear("Plush Bunny Hammer", 0, 5, 0, 85));
+        weaponGear.add(new Gear("Thunder Staff", 0, 7, 0, 148));
+        weaponGear.add(new Gear("Glowblade", 0, 10, 0, 260));
+        weaponGear.add(new Gear("Frost Halberd", 0, 13, 0, 455));
+        weaponGear.add(new Gear("Shadowblade", 0, 17, 0, 797));
+        weaponGear.add(new Gear("Flame Halberd", 0, 22, 0, 1395));
+        weaponGear.add(new Gear("Lightning Axe", 0, 28, 0, 2441));
+        weaponGear.add(new Gear("Earthquake Hammer", 0, 37, 0, 4272));
+        weaponGear.add(new Gear("Hurricane Boomerang", 0, 48, 0, 7476));
+        weaponGear.add(new Gear("Cosmic Annihilator", 0, 63, 0, 13084));
+
+       GoldEnoughForGear(number, weaponGear);
+
     }
 
     public void bootsGear() {
@@ -459,7 +494,7 @@ public class RunProgram {
             System.out.println("You gain 50XP for defeating the monster + 100XP extra for each level the monster is above level 1: " + "\033[92m" +
                     ((monster.getLevel() - 1) * 100 + 50) + " XP" + "\033[0m");
             double xp = rewardAfterBattle(monster) + (rolls * 10);
-            System.out.println("You gained " + "\033[92m" + xp + " xp!" + "\033[0m");
+            System.out.println("You gained " + "\033[92m" + xp + " XP!" + "\033[0m");
             int gold = (int) ((int) xp * 0.23);
             System.out.println("You also gained " + "\033[92m" + gold + " gold!\n" + "\033[0m");
             hero.setHealth(maxHealth);
@@ -526,16 +561,16 @@ public class RunProgram {
         }
 
         int[] xpThresholds = {100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500, 6600, 7800, 9100, 10500, 12000};
-        double attackPowerMultiplier = 1.5; // todo giv brugeren mulighed for selv at vælge den stat de vil have forøget!
+        double attackPowerMultiplier = 7; // todo giv brugeren mulighed for selv at vælge den stat de vil have forøget!
         double defenceIncrement = 0.5;
-        double healthMultiplier = 1.5;
+        double healthMultiplier = 35;
 
         for (int i = hero.getLevel(); i < xpThresholds.length; i++) {
             if (hero.getXp() >= xpThresholds[i] && hero.getXp() < xpThresholds[i + 1]) {
                 hero.setLevel(i + 1);
-                hero.setAttackPower(hero.getAttackPower() * attackPowerMultiplier);
-                hero.setDefence(hero.getDefence() + defenceIncrement);
-                hero.setHealth(hero.getHealth() * healthMultiplier);
+                hero.setAttackPower((hero.getAttackPower() + attackPowerMultiplier) + (hero.getLevel() * 1.75));
+                hero.setDefence((hero.getDefence() + defenceIncrement) + ((double) hero.getLevel() / 3));
+                hero.setHealth((hero.getHealth() + healthMultiplier) * 1.13);
                 filer.gemHeroTilFil(heroArrayList, "hero.txt");
                 break;
             }
@@ -558,9 +593,9 @@ public class RunProgram {
         };
 
         String name = monsterNames[number - 1]; // Arrays er 0-indekseret, så træk 1 fra nummeret
-        double health = (93 * number) * 1.16;
-        double attackPower = (8 * number) * 1.16;
-        double defence = number * 1.06;
+        double health = (93 * number) * 1.28;
+        double attackPower = (8 * number) * 1.35;
+        double defence = number * 1.16;
         return new Monster(name, health, attackPower, defence, number);
     }
 

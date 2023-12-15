@@ -15,7 +15,7 @@ public class Hero {
     private Gear body;
     private Gear leg;
     private Gear boots;
-    private ArrayList<Gear> gears;
+    private ArrayList<Gear> heroGears;
     private Items items;
 
     public Hero(String name, double health, double attackPower, double defence) {
@@ -26,7 +26,7 @@ public class Hero {
         this.xp = 0;
         this.gold = 0;
         this.inBattle = false;
-        this.gears = new ArrayList<>();
+        this.heroGears = new ArrayList<>();
     }
 
     public Hero(String name, double health, double attackPower, double defence, double xp, int gold, int level, boolean inBattle) {
@@ -38,7 +38,7 @@ public class Hero {
         this.gold = gold;
         this.level = level;
         this.inBattle = inBattle;
-        this.gears = new ArrayList<>();
+        this.heroGears = new ArrayList<>();
 
     }
 
@@ -147,15 +147,15 @@ public class Hero {
     }
 
     public void addGear(Gear gear) {
-        this.gears.add(gear);
+        this.heroGears.add(gear);
     }
 
     public void removeGear(Gear gear) {
-        this.gears.remove(gear);
+        this.heroGears.remove(gear);
     }
 
-    public List<Gear> getGears() {
-        return gears;
+    public List<Gear> getHeroGears() {
+        return heroGears;
     }
 
     public void updateStatsBasedOnGear(Hero hero) {
@@ -170,13 +170,24 @@ public class Hero {
         this.defence = baseDefence;
 
         // Opdater stats baseret på hvert gearobjekt
-        for (Gear gear : this.gears) {
+
+        for (int i = heroGears.size() - 1; i < heroGears.size(); i++) {
+            Gear gear = this.heroGears.get(i);
             this.health += gear.getIncreasedHp();
             this.attackPower += gear.getIncreasedAttackPower();
             this.defence += gear.getIncreasedDefence();
         }
+        /*
+        for (int i = 0; i < this.heroGears.size(); i++) {
+            Gear gear = this.heroGears.get(i);
+            this.health += gear.getIncreasedHp();
+            this.attackPower += gear.getIncreasedAttackPower();
+            this.defence += gear.getIncreasedDefence();
 
-    }
+         */
+        }
+
+
 
 
 
