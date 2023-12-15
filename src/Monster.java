@@ -1,16 +1,25 @@
 public class Monster {
     private String name;
     private double health;
+    private double maxHealth;
     private double attackPower;
     private double defence;
-    private double level;
+    private int level;
 
-    public Monster(String name, double health, double attackPower, double defence, double level) {
+    public Monster(String name, double health, double attackPower, double defence, int level) {
         this.name = name;
         this.health = health;
         this.attackPower = attackPower;
         this.defence = defence;
         this.level = level;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getHealth() {
@@ -19,6 +28,14 @@ public class Monster {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public double getAttackPower() {
@@ -37,7 +54,7 @@ public class Monster {
         this.defence = defence;
     }
 
-    public double getLevel() {
+    public int getLevel() {
         return level;
     }
 

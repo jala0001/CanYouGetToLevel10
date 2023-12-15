@@ -38,8 +38,9 @@ public class Filer {
         double xp = Double.parseDouble(data[4]);
         int gold = Integer.parseInt(data[5]);
         int level = Integer.parseInt(data[6]);
+        boolean inBattle = Boolean.parseBoolean(data[7]);
 
-        return new Hero(name, health, attackPower, defence, xp, gold, level);
+        return new Hero(name, health, attackPower, defence, xp, gold, level, inBattle);
     }
     }
 
