@@ -218,6 +218,14 @@ public class RunProgram {
             }
         }
         System.out.println("\n" + "\033[34m" + gear.getName() + " has been purchased!\n" + "\033[0m");
+        for (int i = 0; i < hero.getHeroGears().size(); i++) {
+            if (hero.getHeroGears().get(i).getIncreasedAttackPower() != 0) {
+                System.out.println(hero.getHeroGears().get(i).getName() + " has been removed!");
+                hero.updateStatsBasedOnGearDeleted(hero.getHeroGears().get(i));
+                hero.removeGear(hero.getHeroGears().get(i));
+                // todo Denne metode skal have noget frisk hjerne, godnat!
+            }
+        }
         hero.addGear(gear);
         hero.setGold(hero.getGold() - gear.getPrice());
 

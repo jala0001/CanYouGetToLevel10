@@ -177,20 +177,15 @@ public class Hero {
             this.attackPower += gear.getIncreasedAttackPower();
             this.defence += gear.getIncreasedDefence();
         }
-        /*
-        for (int i = 0; i < this.heroGears.size(); i++) {
-            Gear gear = this.heroGears.get(i);
-            this.health += gear.getIncreasedHp();
-            this.attackPower += gear.getIncreasedAttackPower();
-            this.defence += gear.getIncreasedDefence();
 
-         */
         }
 
+    public void updateStatsBasedOnGearDeleted(Gear gear) {
+        this.health -= gear.getIncreasedHp();
+        this.attackPower -= gear.getIncreasedAttackPower();
+        this.defence -= gear.getIncreasedDefence();
 
-
-
-
+    }
     public Items getItems() {
         return items;
     }
