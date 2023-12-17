@@ -11,12 +11,13 @@ public class Hero {
     private int gold;
     private int level;
     private boolean inBattle;
-    private Gear helmet;
-    private Gear body;
-    private Gear leg;
-    private Gear boots;
     private ArrayList<Gear> heroGears;
+    private ArrayList<Items> heroItems;
     private Items items;
+
+    public Hero() {
+
+    }
 
     public Hero(String name, double health, double attackPower, double defence) {
         this.name = name;
@@ -27,6 +28,7 @@ public class Hero {
         this.gold = 0;
         this.inBattle = false;
         this.heroGears = new ArrayList<>();
+        this.heroItems = new ArrayList<>();
     }
 
     public Hero(String name, double health, double attackPower, double defence, double xp, int gold, int level, boolean inBattle) {
@@ -114,38 +116,6 @@ public class Hero {
         this.inBattle = inBattle;
     }
 
-    public Gear getHelmet() {
-        return helmet;
-    }
-
-    public void setHelmet(Gear helmet) {
-        this.helmet = helmet;
-    }
-
-    public Gear getBody() {
-        return body;
-    }
-
-    public void setBody(Gear body) {
-        this.body = body;
-    }
-
-    public Gear getLeg() {
-        return leg;
-    }
-
-    public void setLeg(Gear leg) {
-        this.leg = leg;
-    }
-
-    public Gear getBoots() {
-        return boots;
-    }
-
-    public void setBoots(Gear boots) {
-        this.boots = boots;
-    }
-
     public void addGear(Gear gear) {
         this.heroGears.add(gear);
     }
@@ -156,6 +126,18 @@ public class Hero {
 
     public List<Gear> getHeroGears() {
         return heroGears;
+    }
+
+    public void addItem(Items items) {
+        this.heroItems.add(items);
+    }
+
+    public void removeItem(Items items) {
+        this.heroItems.remove(items);
+    }
+
+    public ArrayList<Items> getHeroItems() {
+        return heroItems;
     }
 
     public void updateStatsBasedOnGear(Hero hero) {

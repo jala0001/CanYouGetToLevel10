@@ -5,6 +5,7 @@ public class RunProgram {
     private ArrayList<Hero> heroArrayList = new ArrayList<>();
     private ArrayList<Gear> helmetGear;
     private ArrayList<Gear> weaponGear;
+    private Items items = new Items();
     private Filer filer = new Filer();
     private Hero hero;
     Scanner in = new Scanner(System.in);
@@ -86,6 +87,28 @@ public class RunProgram {
         System.out.println("\033[33m" + "Gold: " + hero.getGold() + "\033[0m");
         System.out.println("\033[36m" + "Level: " + hero.getLevel() + "\033[0m");
         System.out.println();
+        if (hero.getHeroGears() != null) {
+            for (int i = 0; i < hero.getHeroGears().size(); i++) {
+                if (hero.getHeroGears().get(i).getHelmetIsx() == 1) {
+                    System.out.print("\033[94m" + "Helmet-Gear: ");
+                } else {
+                    System.out.print("\033[94m" + "Weapon-Gear: ");
+                }
+                System.out.println(hero.getHeroGears().get(i).getName() + "\033[0m" + "\n");
+
+            }
+
+        }
+        if (hero.getHeroItems() != null) {
+            for (int i = 0; i < hero.getHeroItems().size(); i++) {
+                if (hero.getHeroItems().get(i).getAmountOfHpPoints() > 0) {
+                    System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP");
+                } else {
+                    System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP");
+                }
+            }
+
+        }
     }
 
 
@@ -130,7 +153,7 @@ public class RunProgram {
         switch (number) {
             case 1 -> printHeroStats(heroArrayList.get(0));
             case 2 -> buyGear();
-            case 3 -> buyItems();
+            case 3 -> items.buyItems(heroArrayList);
             case 4 -> goToBattle();
         }
 
@@ -183,16 +206,16 @@ public class RunProgram {
 
     public void helmetGearSwitch(int number) {
         helmetGear = new ArrayList<>();
-        helmetGear.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 8));
-        helmetGear.add(new Gear("Soft-helmet", 100, 0, 0.8, 170));
-        helmetGear.add(new Gear("Guard-helmet", 200, 0, 1.1, 340));
-        helmetGear.add(new Gear("Iron-helmet", 400, 0, 1.4, 680));
-        helmetGear.add(new Gear("SilverMoon-helmet", 800, 0, 1.7, 1360));
-        helmetGear.add(new Gear("StormForged-helmet", 1600, 0, 2, 3000));
-        helmetGear.add(new Gear("DragonBone-helmet", 3200, 0, 2.3, 6050));
-        helmetGear.add(new Gear("WarBringer-helmet", 6400, 0, 2.6, 14610));
-        helmetGear.add(new Gear("InfernoSkull-helmet", 12800, 0, 3, 29000));
-        helmetGear.add(new Gear("Pikachu-cap", 30000, 0, 6, 60000));
+        helmetGear.add(new Gear("Featherlight-helmet", 50, 0, 0.5, 8, 1));
+        helmetGear.add(new Gear("Soft-helmet", 100, 0, 0.8, 170, 1));
+        helmetGear.add(new Gear("Guard-helmet", 200, 0, 1.1, 340, 2));
+        helmetGear.add(new Gear("Iron-helmet", 400, 0, 1.4, 680, 1));
+        helmetGear.add(new Gear("SilverMoon-helmet", 800, 0, 1.7, 1360, 1));
+        helmetGear.add(new Gear("StormForged-helmet", 1600, 0, 2, 3000, 1));
+        helmetGear.add(new Gear("DragonBone-helmet", 3200, 0, 2.3, 6050, 1));
+        helmetGear.add(new Gear("WarBringer-helmet", 6400, 0, 2.6, 14610, 1));
+        helmetGear.add(new Gear("InfernoSkull-helmet", 12800, 0, 3, 29000, 1));
+        helmetGear.add(new Gear("Pikachu-cap", 30000, 0, 6, 60000, 1));
 
        GoldEnoughForGear(number, helmetGear);
     }
@@ -219,7 +242,16 @@ public class RunProgram {
         }
         System.out.println("\n" + "\033[34m" + gear.getName() + " has been purchased!\n" + "\033[0m");
         for (int i = 0; i < hero.getHeroGears().size(); i++) {
-            if (hero.getHeroGears().get(i).getIncreasedAttackPower() != 0) {
+            if (hero.getHeroGears().get(i).getHelmetIsx() == 1 && gear.getHelmetIsx() == 1) {
+                System.out.println(hero.getHeroGears().get(i).getName() + " has been removed!");
+                hero.updateStatsBasedOnGearDeleted(hero.getHeroGears().get(i));
+                hero.removeGear(hero.getHeroGears().get(i));
+                // todo Denne metode skal have noget frisk hjerne, godnat!
+            }
+        }
+
+        for (int i = 0; i < hero.getHeroGears().size(); i++) {
+            if (hero.getHeroGears().get(i).getHelmetIsx() == 2 && gear.getHelmetIsx() == 2) {
                 System.out.println(hero.getHeroGears().get(i).getName() + " has been removed!");
                 hero.updateStatsBasedOnGearDeleted(hero.getHeroGears().get(i));
                 hero.removeGear(hero.getHeroGears().get(i));
@@ -259,16 +291,16 @@ public class RunProgram {
 
     public void weaponsGearSwitch(int number) {
         weaponGear = new ArrayList<>();
-        weaponGear.add(new Gear("Plush Bunny Hammer", 0, 5, 0, 85));
-        weaponGear.add(new Gear("Thunder Staff", 0, 7, 0, 148));
-        weaponGear.add(new Gear("Glowblade", 0, 10, 0, 260));
-        weaponGear.add(new Gear("Frost Halberd", 0, 13, 0, 455));
-        weaponGear.add(new Gear("Shadowblade", 0, 17, 0, 797));
-        weaponGear.add(new Gear("Flame Halberd", 0, 22, 0, 1395));
-        weaponGear.add(new Gear("Lightning Axe", 0, 28, 0, 2441));
-        weaponGear.add(new Gear("Earthquake Hammer", 0, 37, 0, 4272));
-        weaponGear.add(new Gear("Hurricane Boomerang", 0, 48, 0, 7476));
-        weaponGear.add(new Gear("Cosmic Annihilator", 0, 63, 0, 13084));
+        weaponGear.add(new Gear("Plush Bunny Hammer", 0, 5, 0, 85, 2));
+        weaponGear.add(new Gear("Thunder Staff", 0, 7, 0, 148, 2));
+        weaponGear.add(new Gear("Glowblade", 0, 10, 0, 260, 2));
+        weaponGear.add(new Gear("Frost Halberd", 0, 13, 0, 455, 2));
+        weaponGear.add(new Gear("Shadowblade", 0, 17, 0, 797, 2));
+        weaponGear.add(new Gear("Flame Halberd", 0, 22, 0, 1395, 2));
+        weaponGear.add(new Gear("Lightning Axe", 0, 28, 0, 2441, 2));
+        weaponGear.add(new Gear("Earthquake Hammer", 0, 37, 0, 4272, 2));
+        weaponGear.add(new Gear("Hurricane Boomerang", 0, 48, 0, 7476, 2));
+        weaponGear.add(new Gear("Cosmic Annihilator", 0, 63, 0, 13084, 2));
 
        GoldEnoughForGear(number, weaponGear);
 
