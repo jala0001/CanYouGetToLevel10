@@ -89,9 +89,9 @@ public class Items {
 
     public void healthPotionSwitch(int number, Hero hero) {
         healthItem = new ArrayList<>();
-        healthItem.add(new Items("Featherlight-helmet", 75, 0, 57));
-        healthItem.add(new Items("Soft-helmet", 231, 0, 162));
-        healthItem.add(new Items("Guard-helmet", 539, 0, 328));
+        healthItem.add(new Items("Little health potion", 75, 0, 57));
+        healthItem.add(new Items("Medium health potion", 231, 0, 162));
+        healthItem.add(new Items("Large health potion", 539, 0, 328));
 
         GoldEnoughForItem(number, healthItem, hero);
     }
@@ -110,10 +110,10 @@ public class Items {
     }
 
     private void buyingGear(Items items, Hero hero) {
-        System.out.println("heeeeeey");
+        System.out.println("You have purchased: " + "\033[31m" + items.name + "\033[0m" + "\n");
 
         hero.addItem(items);
-       // hero.setGold((int) (hero.getGold() - items.getPrice()));
+        hero.setGold((int) (hero.getGold() - items.getPrice()));
 
     }
 
@@ -128,5 +128,8 @@ public class Items {
 
     }
 
-
+    @Override
+    public String toString() {
+        return name + " - Gives: ";
+    }
 }

@@ -41,6 +41,7 @@ public class Hero {
         this.level = level;
         this.inBattle = inBattle;
         this.heroGears = new ArrayList<>();
+        this.heroItems = new ArrayList<>();
 
     }
 
@@ -167,6 +168,11 @@ public class Hero {
         this.attackPower -= gear.getIncreasedAttackPower();
         this.defence -= gear.getIncreasedDefence();
 
+    }
+
+    public void updateStatsBasedOnItems(Items items) {
+        this.health += items.getAmountOfHpPoints();
+        // todo this.mana += items.get.blablabla
     }
     public Items getItems() {
         return items;

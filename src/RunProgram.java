@@ -90,16 +90,17 @@ public class RunProgram {
         if (hero.getHeroGears() != null) {
             for (int i = 0; i < hero.getHeroGears().size(); i++) {
                 if (hero.getHeroGears().get(i).getHelmetIsx() == 1) {
-                    System.out.print("\033[94m" + "Helmet-Gear: ");
+                    System.out.print("Helmet-Gear: ");
                 } else {
-                    System.out.print("\033[94m" + "Weapon-Gear: ");
+                    System.out.print("Weapon-Gear: ");
                 }
-                System.out.println(hero.getHeroGears().get(i).getName() + "\033[0m" + "\n");
+                System.out.println("\033[95m" + hero.getHeroGears().get(i).getName() + "\033[0m" + "\n");
 
             }
 
         }
-        if (hero.getHeroItems() != null) {
+        if (!hero.getHeroItems().isEmpty()) {
+            System.out.println("Items: " + "\033[95m");
             for (int i = 0; i < hero.getHeroItems().size(); i++) {
                 if (hero.getHeroItems().get(i).getAmountOfHpPoints() > 0) {
                     System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP");
@@ -107,7 +108,11 @@ public class RunProgram {
                     System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP");
                 }
             }
+            System.out.println("\033[0m");
 
+        }
+        else {
+            System.out.println("No items\n");
         }
     }
 
@@ -138,7 +143,7 @@ public class RunProgram {
     }
 
 
-    public void mainMenu() {
+    public void mainMenu() { // todo fejlHåndtering
         System.out.println("Type the number of the desired option: ");
         System.out.println("1. See hero stats");
         System.out.println("2. Buy gear");
@@ -159,7 +164,7 @@ public class RunProgram {
 
     }
 
-    public void buyGear() {
+    public void buyGear() { // todo fejlHåndtering
         System.out.println("What would you like to purchase?");
         System.out.println("1. Helmet");
         System.out.println("2. Body armor");
@@ -274,16 +279,18 @@ public class RunProgram {
     }
 
     public void weapons() {
-        System.out.println("1. Plush Bunny Hammer - '0HP' - '5 attackPower' - '0 defence' - 'PRICE: 85");
+        System.out.println("\033[32m" + "1. Plush Bunny Hammer - '0HP' - '5 attackPower' - '0 defence' - 'PRICE: 85");
         System.out.println("2. Thunder Staff - '0HP' - '7 attackPower' - '0 defence' - 'PRICE: 148'");
-        System.out.println("3. Glowblade - '0HP' - '10 attackPower' - '0 defence' - 'PRICE: 260'");
-        System.out.println("4. Frost Halberd - '0HP' - '13 attackPower' - '0 defence' - 'PRICE: 455'");
+        System.out.println("3. Glowblade - '0HP' - '10 attackPower' - '0 defence' - 'PRICE: 260'" + "\033[0m");
+
+        System.out.println("\033[33m" + "4. Frost Halberd - '0HP' - '13 attackPower' - '0 defence' - 'PRICE: 455'");
         System.out.println("5. Shadowblade - '0HP' - '17 attackPower' - '0 defence' - 'PRICE: 797'");
         System.out.println("6. Flame Halberd - '0HP' - '22 attackPower' - '0 defence' - 'PRICE: 1395'");
-        System.out.println("7. Lightning Axe - '0HP' - '28 attackPower' - '0 defence' - 'PRICE: 2441'");
-        System.out.println("8. Earthquake Hammer - '0HP' - '37 attackPower' - '0 defence' - 'PRICE: 4272'");
+        System.out.println("7. Lightning Axe - '0HP' - '28 attackPower' - '0 defence' - 'PRICE: 2441'" + "\033[0m");
+
+        System.out.println("\033[31m" + "8. Earthquake Hammer - '0HP' - '37 attackPower' - '0 defence' - 'PRICE: 4272'");
         System.out.println("9. Hurricane Boomerang - '0HP' - '48 attackPower' - '0 defence' - 'PRICE: 7476'");
-        System.out.println("10. Cosmic Annihilator - '0HP' - '63 attackPower' - '0 defence' - 'PRICE: 13084'");
+        System.out.println("10. Cosmic Annihilator - '0HP' - '63 attackPower' - '0 defence' - 'PRICE: 13084'" + "\033[0m");
         int number = in.nextInt();
         in.nextLine();
         weaponsGearSwitch(number);
@@ -465,9 +472,9 @@ public class RunProgram {
         printMonsterStats(monster);
         while (hero.getHealth() > 0 && monster.getHealth() > 0) {
             String rollOrAttack = rollOrAttackHero();
-            if (rollOrAttack.equalsIgnoreCase("roll")) {
+            if (rollOrAttack.equalsIgnoreCase("roll")) { // todo - alle if og else skal i egne metoder så man ikke mister en tur ved at prøve at bruge et item som ikke eksisterer!
                 rolls++;
-                int number = random.nextInt(6) + 1; // todo lav en anden fordeling i forhold til hero level vs monster
+                int number = random.nextInt(6) + 1;
                 System.out.println("Guess the number of the dice before you roll it: " );
                // System.out.println(number);
                 int guess = in.nextInt();
@@ -498,6 +505,15 @@ public class RunProgram {
                 double defenceBack = monsterDefence * hero.getAttackPower();
                 System.out.println("The monsters defence blocked " + "\033[37m" + String.format("%.2f", defenceBack) + "\033[0m" + " damage!"); // C
                 monster.setHealth(monster.getHealth() - hero.getAttackPower() + defenceBack);
+            }
+            if (rollOrAttack.equalsIgnoreCase("Use item")) {
+                if (!hero.getHeroItems().isEmpty()) {
+                    whichItemDoYouWantToUse();
+                }
+                else {
+                    System.out.println("You dont have any items available");
+                }
+
             }
             if (monster.getHealth() <= 0) {
                 System.out.println("Monster defeated!");
@@ -584,6 +600,47 @@ public class RunProgram {
                 in.nextLine();
             }
         }
+    }
+
+    public void whichItemDoYouWantToUse() {
+        if (hero.getHeroItems().isEmpty()) { //todo logik skal ændres til at være i heroVsMonster
+            System.out.println("You dont have any items available");
+            rollOrAttackHero();
+            return;
+
+        }
+        System.out.println("Which item do you want to use?" + "\033[31m" );
+        for (int i = 0; i < hero.getHeroItems().size(); i++) {
+            if (hero.getHeroItems().get(i).getAmountOfHpPoints() > 0) {
+                System.out.println((i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP");
+            }
+            else if (hero.getHeroItems().get(i).getAmountOfManaPoints() > 0) {
+                System.out.println((i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP");
+            }
+        }
+        System.out.println("\033[0m");
+        int number = in.nextInt() - 1;
+        in.nextLine();
+        updateHeroStatsAfterUsedItem(number);
+
+
+    }
+
+    public void updateHeroStatsAfterUsedItem(int number) {
+        System.out.println("You chose to use: " + "\033[31m" + hero.getHeroItems().get(number).getName() + "\033[0m");
+        if (hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints() <= hero.getMaxHealth()) {
+            System.out.print("Your heros health went from: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
+            hero.setHealth(hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints());
+            System.out.println(" to: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
+        }
+        else {
+            System.out.println("You hero is now at max health. You only used: " + "\033[31m" + String.format("%.2f", (hero.getMaxHealth() - hero.getHealth())) +  "HP" + "\033[0m" + " from the potion");
+            hero.setHealth(hero.getMaxHealth());
+        }
+        hero.getHeroItems().remove(hero.getHeroItems().get(number));
+       // hero.setHealth(hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints()); todo lav samme for mana
+
+
     }
 
 
