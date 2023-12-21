@@ -35,12 +35,13 @@ public class Filer {
         double health = Double.parseDouble(data[1]);
         double attackPower = Double.parseDouble(data[2]);
         double defence = Double.parseDouble(data[3]);
-        double xp = Double.parseDouble(data[4]);
-        int gold = Integer.parseInt(data[5]);
-        int level = Integer.parseInt(data[6]);
-        boolean inBattle = Boolean.parseBoolean(data[7]);
+        double mana = Double.parseDouble(data[4]);
+        double xp = Double.parseDouble(data[5]);
+        int gold = Integer.parseInt(data[6]);
+        int level = Integer.parseInt(data[7]);
+        boolean inBattle = Boolean.parseBoolean(data[8]);
 
-        return new Hero(name, health, attackPower, defence, xp, gold, level, inBattle);
+        return new Hero(name, health, attackPower, defence, mana, xp, gold, level, inBattle);
     }
     }
 

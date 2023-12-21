@@ -7,6 +7,8 @@ public class Hero {
     private double maxHealth;
     private double attackPower;
     private double defence;
+    private double mana;
+    private double maxMana;
     private double xp;
     private int gold;
     private int level;
@@ -24,6 +26,7 @@ public class Hero {
         this.health = health;
         this.attackPower = attackPower;
         this.defence = defence;
+        this.mana = 100;
         this.xp = 0;
         this.gold = 0;
         this.inBattle = false;
@@ -31,11 +34,12 @@ public class Hero {
         this.heroItems = new ArrayList<>();
     }
 
-    public Hero(String name, double health, double attackPower, double defence, double xp, int gold, int level, boolean inBattle) {
+    public Hero(String name, double health, double attackPower, double defence, double mana, double xp, int gold, int level, boolean inBattle) {
         this.name = name;
         this.health = health;
         this.attackPower = attackPower;
         this.defence = defence;
+        this.mana = mana;
         this.xp = xp;
         this.gold = gold;
         this.level = level;
@@ -83,6 +87,22 @@ public class Hero {
 
     public void setDefence(double defence) {
         this.defence = defence;
+    }
+
+    public double getMana() {
+        return mana;
+    }
+
+    public void setMana(double mana) {
+        this.mana = mana;
+    }
+
+    public double getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(double maxMana) {
+        this.maxMana = maxMana;
     }
 
     public double getXp() {
@@ -184,6 +204,6 @@ public class Hero {
 
     @Override
     public String toString() {
-        return name + "," + health + "," + attackPower + "," + defence + "," + xp + "," + gold + "," + level + "," + inBattle;
+        return name + "," + health + "," + attackPower + "," + defence + "," + mana + "," + xp + "," + gold + "," + level + "," + inBattle;
     }
 }

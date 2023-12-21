@@ -70,7 +70,7 @@ public class Items {
     public void itemSwitch(int number, Hero hero) {
         switch (number) {
            case 1 -> healthPotion(hero);
-           case 2 -> manaPotion();
+           case 2 -> manaPotion(hero);
            case 3 -> spells();
            // case 4 -> bootsGear();
            // default -> buyGear();
@@ -78,10 +78,10 @@ public class Items {
     }
 
     public void healthPotion(Hero hero) {
-        System.out.println("What would you like to purchase: ");
+        System.out.println("What would you like to purchase: " + "\033[31m");
         System.out.println("1. Little health potion - ' 75 HP' - 'price:  57 gold' ");
         System.out.println("2. Medium health potion - '231 HP' - 'price: 162 gold ");
-        System.out.println("3. Large health potion  - '539 HP' - 'price: 328 gold");
+        System.out.println("3. Large health potion  - '539 HP' - 'price: 328 gold" + "\033[0m");
         int number = in.nextInt();
         in.nextLine();
         healthPotionSwitch(number, hero);
@@ -105,7 +105,7 @@ public class Items {
                 System.out.println("\033[31m" + "You don't have the gold to buy that item" + "\033[0m");
             }
         } else {
-            System.out.println("\033[31m" + "Invalid gear selection" + "\033[0m");
+            System.out.println("\033[31m" + "Invalid item selection" + "\033[0m");
         }
     }
 
@@ -117,11 +117,23 @@ public class Items {
 
     }
 
-    public void manaPotion() {
-        System.out.println("What would you like to purchase: ");
-        System.out.println("1. Little mana potion - ' 75 MP' ");
-        System.out.println("2. Medium mana potion - '231 MP' ");
-        System.out.println("3. Large mana potion  - '539 MP'");
+    public void manaPotion(Hero hero) {
+        System.out.println("What would you like to purchase: " + "\033[34m");
+        System.out.println("1. Little mana potion - ' 75 MP' - 'price:  67 gold' ");
+        System.out.println("2. Medium mana potion - '231 MP' - 'price: 182 gold' ");
+        System.out.println("3. Large mana potion  - '539 MP' - 'price: 350 gold' " + "\033[0m");
+        int number = in.nextInt();
+        in.nextLine();
+        manaPotionSwitch(number, hero);
+    }
+
+    public void manaPotionSwitch(int number, Hero hero) {
+        manaItem = new ArrayList<>();
+        manaItem.add(new Items("Little mana potion", 0, 64, 67));
+        manaItem.add(new Items("Medium mana potion", 0, 216, 182));
+        manaItem.add(new Items("Large mana potion", 0, 578, 350));
+
+        GoldEnoughForItem(number, manaItem, hero);
     }
 
     public void spells() {

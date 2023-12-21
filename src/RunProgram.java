@@ -35,6 +35,8 @@ public class RunProgram {
             updateHeroStats();
             double maxHealth = hero.getHealth();
             hero.setMaxHealth(maxHealth);
+            double maxMana = hero.getMana();
+            hero.setMaxMana(maxMana);
             mainMenu();
         }
 
@@ -83,6 +85,7 @@ public class RunProgram {
         System.out.println("\033[31m" + "Health: " + String.format("%.2f", hero.getHealth()) + "\033[0m");
         System.out.println("\033[35m" + "AttackPower: " + String.format("%.2f", hero.getAttackPower()) + "\033[0m");
         System.out.println("\033[37m" + "Defence: " + String.format("%.2f", hero.getDefence()) + "\033[0m");
+        System.out.println("\033[34m" + "mana: " + String.format("%.2f", hero.getMana()) + "\033[0m");
         System.out.println("\033[32m" + "XP: " + String.format("%.0f", hero.getXp()) + "\033[0m");
         System.out.println("\033[33m" + "Gold: " + hero.getGold() + "\033[0m");
         System.out.println("\033[36m" + "Level: " + hero.getLevel() + "\033[0m");
@@ -100,12 +103,12 @@ public class RunProgram {
 
         }
         if (!hero.getHeroItems().isEmpty()) {
-            System.out.println("Items: " + "\033[95m");
+            System.out.println("Items: ");
             for (int i = 0; i < hero.getHeroItems().size(); i++) {
                 if (hero.getHeroItems().get(i).getAmountOfHpPoints() > 0) {
-                    System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP");
+                    System.out.println("\033[31m" +hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP" +"\033[0m");
                 } else {
-                    System.out.println(hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP");
+                    System.out.println("\033[34m" +hero.getHeroItems().get(i).getName() + " - Gives: " + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP" + "\033[0m");
                 }
             }
             System.out.println("\033[0m");
@@ -126,6 +129,8 @@ public class RunProgram {
         System.out.println("\033[35m" + "AttackPower: " + String.format("%.2f", hero.getAttackPower()) + "\033[0m");
 
         System.out.println("\033[37m" + "Defence: " + String.format("%.2f", hero.getDefence()) + "\033[0m");
+
+        System.out.println("\033[34m" + "Mana: " + String.format("%.2f", hero.getMana()) + "/" + String.format("%.2f", hero.getMaxMana()) + "\033[0m");
 
         System.out.println("\033[36m" + "Level: " + hero.getLevel() + "\033[0m");
 
@@ -607,18 +612,16 @@ public class RunProgram {
             System.out.println("You dont have any items available");
             rollOrAttackHero();
             return;
-
         }
-        System.out.println("Which item do you want to use?" + "\033[31m" );
+        System.out.println("Which item do you want to use?" );
         for (int i = 0; i < hero.getHeroItems().size(); i++) {
             if (hero.getHeroItems().get(i).getAmountOfHpPoints() > 0) {
-                System.out.println((i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP");
+                System.out.println("\033[31m" + (i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfHpPoints() + "HP" + "\033[0m");
             }
             else if (hero.getHeroItems().get(i).getAmountOfManaPoints() > 0) {
-                System.out.println((i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP");
+                System.out.println("\033[34m" + (i + 1) + ". " + hero.getHeroItems().get(i) + hero.getHeroItems().get(i).getAmountOfManaPoints() + "MP" + "\033[0m");
             }
         }
-        System.out.println("\033[0m");
         int number = in.nextInt() - 1;
         in.nextLine();
         updateHeroStatsAfterUsedItem(number);
@@ -627,15 +630,28 @@ public class RunProgram {
     }
 
     public void updateHeroStatsAfterUsedItem(int number) {
-        System.out.println("You chose to use: " + "\033[31m" + hero.getHeroItems().get(number).getName() + "\033[0m");
-        if (hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints() <= hero.getMaxHealth()) {
-            System.out.print("Your heros health went from: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
-            hero.setHealth(hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints());
-            System.out.println(" to: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
+        if (hero.getHeroItems().get(number).getAmountOfHpPoints() > 0) {
+            System.out.println("You chose to use: " + "\033[31m" + hero.getHeroItems().get(number).getName() + "\033[0m");
+            if (hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints() <= hero.getMaxHealth()) {
+                System.out.print("Your heros health went from: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
+                hero.setHealth(hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints());
+                System.out.println(" to: " + "\033[31m" + String.format("%.2f", hero.getHealth()) + "HP" + "\033[0m");
+            } else {
+                System.out.println("You hero is now at max health. You only used: " + "\033[31m" + String.format("%.2f", (hero.getMaxHealth() - hero.getHealth())) + "HP" + "\033[0m" + " from the potion");
+                hero.setHealth(hero.getMaxHealth());
+            }
         }
         else {
-            System.out.println("You hero is now at max health. You only used: " + "\033[31m" + String.format("%.2f", (hero.getMaxHealth() - hero.getHealth())) +  "HP" + "\033[0m" + " from the potion");
-            hero.setHealth(hero.getMaxHealth());
+            System.out.println("You chose to use: " + "\033[34m" + hero.getHeroItems().get(number).getName() + "\033[0m");
+            if (hero.getMana() + hero.getHeroItems().get(number).getAmountOfManaPoints() <= hero.getMaxMana()) {
+                System.out.print("Your heros mana went from: " + "\033[34m" + String.format("%.2f", hero.getMana()) + "MP" + "\033[0m");
+                hero.setMana(hero.getMana() + hero.getHeroItems().get(number).getAmountOfManaPoints());
+                System.out.println(" to: " + "\033[34m" + String.format("%.2f", hero.getMana()) + "MP" + "\033[0m");
+            } else {
+                System.out.println("You hero is now at max mana. You only used: " + "\033[34m" + String.format("%.2f", (hero.getMaxMana() - hero.getMana())) + "MP" + "\033[0m" + " from the potion");
+                hero.setMana(hero.getMaxMana());
+            }
+
         }
         hero.getHeroItems().remove(hero.getHeroItems().get(number));
        // hero.setHealth(hero.getHealth() + hero.getHeroItems().get(number).getAmountOfHpPoints()); todo lav samme for mana
