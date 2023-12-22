@@ -68,10 +68,11 @@ public class Items {
     }
 
     public void itemSwitch(int number, Hero hero) {
+        Spell spell = new Spell();
         switch (number) {
            case 1 -> healthPotion(hero);
            case 2 -> manaPotion(hero);
-           case 3 -> spells();
+           case 3 -> spell.spells(hero);
            // case 4 -> bootsGear();
            // default -> buyGear();
         }
@@ -136,9 +137,6 @@ public class Items {
         GoldEnoughForItem(number, manaItem, hero);
     }
 
-    public void spells() {
-
-    }
 
     @Override
     public String toString() {

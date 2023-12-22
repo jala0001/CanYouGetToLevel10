@@ -5,6 +5,7 @@ public class RunProgram {
     private ArrayList<Hero> heroArrayList = new ArrayList<>();
     private ArrayList<Gear> helmetGear;
     private ArrayList<Gear> weaponGear;
+
     private Items items = new Items();
     private Filer filer = new Filer();
     private Hero hero;
@@ -175,7 +176,6 @@ public class RunProgram {
         System.out.println("2. Body armor");
         System.out.println("3. Weapons");
         System.out.println("4. Boots");
-        //todo              Spells
         int number = in.nextInt();
         in.nextLine();
         gearSwitch(number);
@@ -517,6 +517,28 @@ public class RunProgram {
                 }
                 else {
                     System.out.println("You dont have any items available");
+                }
+
+            }
+
+            if (rollOrAttack.equalsIgnoreCase("Use spell")) {
+                Spell spell = new Spell();
+                String whatSpell = spell.showSpellsThatAreAvailable(hero);
+                if (whatSpell.equalsIgnoreCase("Frost nova")) {
+                   int stuns = spell.frostNova(hero, monster);
+                   // todo lav heroVsMonster til mindre metoder så dette kan implementeret!
+
+
+                }
+                else if (whatSpell.equalsIgnoreCase("Double damage")) {
+                    System.out.println("buubbuub");
+                }
+
+                else if (whatSpell.equalsIgnoreCase("Avada-Kadabra")) {
+
+                }
+                else {
+
                 }
 
             }

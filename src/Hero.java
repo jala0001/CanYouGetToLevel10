@@ -15,6 +15,7 @@ public class Hero {
     private boolean inBattle;
     private ArrayList<Gear> heroGears;
     private ArrayList<Items> heroItems;
+    private ArrayList<Spell> heroSpells;
     private Items items;
 
     public Hero() {
@@ -28,10 +29,11 @@ public class Hero {
         this.defence = defence;
         this.mana = 100;
         this.xp = 0;
-        this.gold = 0;
+        this.gold = 5000;
         this.inBattle = false;
         this.heroGears = new ArrayList<>();
         this.heroItems = new ArrayList<>();
+        this.heroSpells = new ArrayList<>();
     }
 
     public Hero(String name, double health, double attackPower, double defence, double mana, double xp, int gold, int level, boolean inBattle) {
@@ -46,6 +48,7 @@ public class Hero {
         this.inBattle = inBattle;
         this.heroGears = new ArrayList<>();
         this.heroItems = new ArrayList<>();
+        this.heroSpells = new ArrayList<>();
 
     }
 
@@ -159,6 +162,14 @@ public class Hero {
 
     public ArrayList<Items> getHeroItems() {
         return heroItems;
+    }
+
+    public void addSpell(Spell spell) {
+        this.heroSpells.add(spell);
+    }
+
+    public ArrayList<Spell> getHeroSpells() {
+        return heroSpells;
     }
 
     public void updateStatsBasedOnGear(Hero hero) {
