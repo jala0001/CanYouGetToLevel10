@@ -526,7 +526,18 @@ public class RunProgram {
                 String whatSpell = spell.showSpellsThatAreAvailable(hero);
                 if (whatSpell.equalsIgnoreCase("Frost nova")) {
                    int stuns = spell.frostNova(hero, monster);
-                   // todo lav heroVsMonster til mindre metoder så dette kan implementeret!
+                   double frostAttack = hero.getAttackPower() * 1.5;
+                    System.out.println("you have dealt " + frostAttack + " damage\nYou have stuned the monster the " +
+                            "next " + stuns + " rounds");
+                    monster.setHealth(monster.getHealth() - frostAttack);
+                    System.out.println("Because of lazy coding you can only attack while the monster is stunned");
+                   while (stuns > 0 && monster.getHealth() > 0) {
+                       stuns--;
+                       pressEnterToContinue();
+                       System.out.println("You attack with the power of " + hero.getAttackPower());
+                       monster.setHealth(monster.getHealth() - hero.getAttackPower());
+                       System.out.println("The monsters health is now: " + String.format("%.2f", monster.getHealth()));
+                   }
 
 
                 }
@@ -595,6 +606,22 @@ public class RunProgram {
             filer.gemHeroTilFil(heroArrayList, "hero.txt");
             System.exit(0);
         }
+    }
+
+    public void HeroRoll() {
+
+    }
+
+    public void heroAttack() {
+
+    }
+
+    public void heroUseItem() {
+
+    }
+
+    public void heroUseSpell() {
+
     }
 
     public String rollOrAttackHero() {
